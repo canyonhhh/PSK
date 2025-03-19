@@ -15,9 +15,6 @@ public class Book {
     private Long id;
 
     @Basic
-    private String author;
-
-    @Basic
     private String isbn;
 
     @Basic
@@ -27,7 +24,7 @@ public class Book {
     private Integer copies;
 
     @ManyToOne
-    private Author authorId;
+    private Author author;
     @ManyToMany
     private List<Genre> genres;
 }
