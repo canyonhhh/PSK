@@ -10,6 +10,7 @@
       <f:viewParam name="authorId" value="#{booksController.authorId}"/>
       <f:viewAction action="#{booksController.loadAuthorBooks}"/>
    </f:metadata>
+   <h:outputStylesheet library="css" name="library-styles.css"/>
 </h:head>
 <h:body>
    <h1>Books by #{booksController.authorName}</h1>

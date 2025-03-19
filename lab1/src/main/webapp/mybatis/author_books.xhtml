@@ -9,20 +9,7 @@
    <f:metadata>
       <f:viewParam name="authorId" value="#{booksMyBatis.authorId}"/>
    </f:metadata>
-   <style type="text/css">
-      .table {
-         width: 100%;
-         border-collapse: collapse;
-         margin-top: 20px;
-      }
-      .table th, .table td {
-         border: 1px solid #ddd;
-         padding: 8px;
-      }
-      .button-group {
-         margin-top: 15px;
-      }
-   </style>
+   <h:outputStylesheet library="css" name="library-styles.css"/>
 </h:head>
 <h:body>
    <h1>Books by #{booksMyBatis.authorName} (MyBatis Implementation)</h1>
@@ -54,7 +41,10 @@
          </h:column>
          <h:column>
             <f:facet name="header">Actions</f:facet>
-            <h:commandButton value="Edit" action="book_form?faces-redirect=true&amp;bookId=#{book.id}&amp;authorId=#{booksMyBatis.authorId}"/>
+            <h:button value="Edit" outcome="book_form">
+               <f:param name="bookId" value="#{book.id}" />
+               <f:param name="authorId" value="#{booksMyBatis.authorId}" />
+            </h:button>
             <h:button value="Details" outcome="book_details" style="margin-left: 5px;">
                <f:param name="bookId" value="#{book.id}" />
             </h:button>

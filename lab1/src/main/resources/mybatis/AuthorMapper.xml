@@ -5,36 +5,36 @@
         <id column="ID" jdbcType="BIGINT" property="id" />
         <result column="FIRSTNAME" jdbcType="VARCHAR" property="firstName" />
         <result column="LASTNAME" jdbcType="VARCHAR" property="lastName" />
-        <result column="BIRTHDAY" jdbcType="DATE" property="birthday" />
+        <result column="BIRTHDAY" jdbcType="VARCHAR" property="birthday" />
     </resultMap>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        SELECT id, firstname, lastname, birthday
-        FROM Author
-        WHERE id = #{id,jdbcType=BIGINT}
+        SELECT ID, FIRSTNAME, LASTNAME, BIRTHDAY
+        FROM AUTHOR
+        WHERE ID = #{id,jdbcType=BIGINT}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT id, firstname, lastname, birthday
-        FROM Author
-        ORDER BY lastname, firstname
+        SELECT ID, FIRSTNAME, LASTNAME, BIRTHDAY
+        FROM AUTHOR
+        ORDER BY LASTNAME, FIRSTNAME
     </select>
 
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.lab1.mybatis.model.Author" useGeneratedKeys="true">
-        INSERT INTO Author (firstname, lastname, birthday)
-        VALUES (#{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE})
+    <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.example.lab1.mybatis.model.Author" useGeneratedKeys="true">
+        INSERT INTO AUTHOR (ID, FIRSTNAME, LASTNAME, BIRTHDAY)
+        VALUES (NEXT VALUE FOR HIBERNATE_SEQUENCE, #{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}, #{birthday,jdbcType=VARCHAR})
     </insert>
 
     <update id="updateByPrimaryKey" parameterType="com.example.lab1.mybatis.model.Author">
-        UPDATE Author
-        SET firstname = #{firstName,jdbcType=VARCHAR},
-            lastname = #{lastName,jdbcType=VARCHAR},
-            birthday = #{birthday,jdbcType=DATE}
-        WHERE id = #{id,jdbcType=BIGINT}
+        UPDATE AUTHOR
+        SET FIRSTNAME = #{firstName,jdbcType=VARCHAR},
+            LASTNAME = #{lastName,jdbcType=VARCHAR},
+            BIRTHDAY = #{birthday,jdbcType=VARCHAR}
+        WHERE ID = #{id,jdbcType=BIGINT}
     </update>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        DELETE FROM Author
-        WHERE id = #{id,jdbcType=BIGINT}
+        DELETE FROM AUTHOR
+        WHERE ID = #{id,jdbcType=BIGINT}
     </delete>
 </mapper>

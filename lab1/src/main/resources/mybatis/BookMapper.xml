@@ -9,74 +9,56 @@
         <result column="AUTHOR_ID" jdbcType="BIGINT" property="authorId" />
     </resultMap>
 
-    <resultMap id="BookWithAuthorMap" type="com.example.lab1.mybatis.model.Book" extends="BaseResultMap">
-        <association property="author" javaType="com.example.lab1.mybatis.model.Author">
-            <id column="AUTHOR_ID" jdbcType="BIGINT" property="id" />
-            <result column="AUTHOR_FIRST_NAME" jdbcType="VARCHAR" property="firstName" />
-            <result column="AUTHOR_LAST_NAME" jdbcType="VARCHAR" property="lastName" />
-            <result column="AUTHOR_BIRTHDAY" jdbcType="DATE" property="birthday" />
-        </association>
-    </resultMap>
-
-    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BookWithAuthorMap">
-        SELECT b.id, b.isbn, b.title, b.copies, b.author_id,
-               a.firstname AS author_first_name, a.lastname AS author_last_name, a.birthday AS author_birthday
-        FROM Book b
-                 LEFT JOIN Author a ON b.author_id = a.id
-        WHERE b.id = #{id,jdbcType=BIGINT}
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT ID, ISBN, TITLE, COPIES, AUTHOR_ID
+        FROM BOOK
+        WHERE ID = #{id,jdbcType=BIGINT}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT id, isbn, title, copies, author_id
-        FROM Book
+        SELECT ID, ISBN, TITLE, COPIES, AUTHOR_ID
+        FROM BOOK
     </select>
 
     <select id="selectByAuthorId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        SELECT id, isbn, title, copies, author_id
-        FROM Book
-        WHERE author_id = #{authorId,jdbcType=BIGINT}
+        SELECT ID, ISBN, TITLE, COPIES, AUTHOR_ID
+        FROM BOOK
+        WHERE AUTHOR_ID = #{authorId,jdbcType=BIGINT}
     </select>
 
-    <select id="selectGenresByBookId" parameterType="java.lang.Long" resultType="com.example.lab1.mybatis.model.Genre">
-        SELECT g.id, g.name, g.description
-        FROM Genre g
-                 JOIN Book_Genre bg ON g.id = bg.genres_id
-        WHERE bg.books_id = #{bookId,jdbcType=BIGINT}
-    </select>
-
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.lab1.mybatis.model.Book" useGeneratedKeys="true">
-        INSERT INTO Book (isbn, title, copies, author_id)
-        VALUES (#{isbn,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{copies,jdbcType=INTEGER}, #{authorId,jdbcType=BIGINT})
+    <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.example.lab1.mybatis.model.Book" useGeneratedKeys="true">
+        INSERT INTO BOOK (ID, ISBN, TITLE, COPIES, AUTHOR_ID)
+        VALUES (NEXT VALUE FOR HIBERNATE_SEQUENCE, #{isbn,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{copies,jdbcType=INTEGER}, #{authorId,jdbcType=BIGINT})
     </insert>
 
     <select id="selectByGenreId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        SELECT b.id, b.isbn, b.title, b.copies, b.author_id
-        FROM Book b
-                 JOIN Book_Genre bg ON b.id = bg.books_id
-        WHERE bg.genres_id = #{genreId,jdbcType=BIGINT}
+        SELECT b.ID, b.ISBN, b.TITLE, b.COPIES, b.AUTHOR_ID
+        FROM BOOK b
+                 JOIN BOOK_GENRE bg ON b.ID = bg.BOOKS_ID
+        WHERE bg.GENRES_ID = #{genreId,jdbcType=BIGINT}
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.example.lab1.mybatis.model.Book">
-        UPDATE Book
-        SET isbn = #{isbn,jdbcType=VARCHAR},
-            title = #{title,jdbcType=VARCHAR},
-            copies = #{copies,jdbcType=INTEGER},
-            author_id = #{authorId,jdbcType=BIGINT}
-        WHERE id = #{id,jdbcType=BIGINT}
+        UPDATE BOOK
+        SET ISBN = #{isbn,jdbcType=VARCHAR},
+            TITLE = #{title,jdbcType=VARCHAR},
+            COPIES = #{copies,jdbcType=INTEGER},
+            AUTHOR_ID = #{authorId,jdbcType=BIGINT}
+        WHERE ID = #{id,jdbcType=BIGINT}
     </update>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        DELETE FROM Book
-        WHERE id = #{id,jdbcType=BIGINT}
+        DELETE FROM BOOK
+        WHERE ID = #{id,jdbcType=BIGINT}
     </delete>
 
     <insert id="insertBookGenre">
-        INSERT INTO Book_Genre (books_id, genres_id)
+        INSERT INTO BOOK_GENRE (BOOKS_ID, GENRES_ID)
         VALUES (#{bookId,jdbcType=BIGINT}, #{genreId,jdbcType=BIGINT})
     </insert>
 
     <delete id="deleteBookGenres" parameterType="java.lang.Long">
-        DELETE FROM Book_Genre
-        WHERE books_id = #{bookId,jdbcType=BIGINT}
+        DELETE FROM BOOK_GENRE
+        WHERE BOOKS_ID = #{bookId,jdbcType=BIGINT}
     </delete>
 </mapper>

@@ -7,30 +7,14 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
    <title>Authors Management (MyBatis)</title>
-   <style type="text/css">
-      .form-group {
-         margin-bottom: 15px;
-      }
-      .button-group {
-         margin-top: 20px;
-      }
-      .table {
-         width: 100%;
-         border-collapse: collapse;
-         margin-top: 20px;
-      }
-      .table th, .table td {
-         border: 1px solid #ddd;
-         padding: 8px;
-      }
-   </style>
+   <h:outputStylesheet library="css" name="library-styles.css"/>
 </h:head>
 <h:body>
    <h1>Authors Management (MyBatis Implementation)</h1>
 
    <div class="button-group">
       <h:form>
-         <h:commandButton value="Add New Author" action="#{authorsMyBatis.prepareNewGenre()}"
+         <h:commandButton value="Add New Author" action="#{authorsMyBatis.prepareNewAuthor()}"
                           onclick="document.getElementById('authorForm').style.display='block'; return false;"/>
          <h:link value="Back to Home" outcome="index" style="margin-left: 10px;"/>
       </h:form>
@@ -56,7 +40,7 @@
          </h:column>
          <h:column>
             <f:facet name="header">Actions</f:facet>
-            <h:commandButton value="Edit" action="#{authorsMyBatis.selectGenre(author)}"
+            <h:commandButton value="Edit" action="#{authorsMyBatis.selectAuthor(author)}"
                              onclick="document.getElementById('authorForm').style.display='block'; return false;"/>
             <h:button value="Books" outcome="author_books" style="margin-left: 5px;">
                <f:param name="authorId" value="#{author.id}" />
@@ -66,23 +50,23 @@
    </h:form>
 
    <div id="authorForm" style="display: none; margin-top: 20px; border: 1px solid #ddd; padding: 15px;">
-      <h2>#{empty authorsMyBatis.genreToCreate.id ? 'Add New Author' : 'Edit Author'}</h2>
+      <h2>#{empty authorsMyBatis.authorToCreate.id ? 'Add New Author' : 'Edit Author'}</h2>
       <h:form>
          <div class="form-group">
             <h:outputLabel for="firstName" value="First Name:"/>
-            <h:inputText id="firstName" value="#{authorsMyBatis.genreToCreate.firstName}" required="true"/>
+            <h:inputText id="firstName" value="#{authorsMyBatis.authorToCreate.firstName}" required="true"/>
          </div>
          <div class="form-group">
             <h:outputLabel for="lastName" value="Last Name:"/>
-            <h:inputText id="lastName" value="#{authorsMyBatis.genreToCreate.lastName}" required="true"/>
+            <h:inputText id="lastName" value="#{authorsMyBatis.authorToCreate.lastName}" required="true"/>
          </div>
          <div class="form-group">
             <h:outputLabel for="birthday" value="Birthday:"/>
-            <h:inputText id="birthday" value="#{authorsMyBatis.genreToCreate.birthday}"/>
+            <h:inputText id="birthday" value="#{authorsMyBatis.authorToCreate.birthday}"/>
             <h:outputText value=" (Format: yyyy-MM-dd)"/>
          </div>
          <div class="button-group">
-            <h:commandButton value="Save" action="#{authorsMyBatis.saveGenre()}"/>
+            <h:commandButton value="Save" action="#{authorsMyBatis.createAuthor()}"/>
             <h:commandButton value="Cancel" onclick="document.getElementById('authorForm').style.display='none'; return false;" style="margin-left: 10px;"/>
          </div>
       </h:form>

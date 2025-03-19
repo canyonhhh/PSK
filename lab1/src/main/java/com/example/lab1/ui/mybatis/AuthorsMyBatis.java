@@ -22,18 +22,46 @@ public class AuthorsMyBatis {
     @Getter @Setter
     private Author authorToCreate = new Author();
 
+    @Getter @Setter
+    private Long selectedAuthorId;
+
     @PostConstruct
     public void init() {
         this.loadAllAuthors();
+
+        // If there's a selected author ID, load that author
+        if (selectedAuthorId != null) {
+            authorToCreate = authorMapper.selectByPrimaryKey(selectedAuthorId);
+        }
     }
 
     private void loadAllAuthors() {
         this.allAuthors = authorMapper.selectAll();
     }
 
+    public void prepareNewAuthor() {
+        authorToCreate = new Author();
+        selectedAuthorId = null;
+    }
+
+    public void selectAuthor(Author author) {
+        authorToCreate = author;
+        selectedAuthorId = author.getId();
+    }
+
     @Transactional
     public String createAuthor() {
-        authorMapper.insert(authorToCreate);
+        if (authorToCreate.getId() == null) {
+            authorMapper.insert(authorToCreate);
+        } else {
+            authorMapper.updateByPrimaryKey(authorToCreate);
+        }
+
+        // Reset after creating/updating
+        authorToCreate = new Author();
+        selectedAuthorId = null;
+        loadAllAuthors();
+
         return "/mybatis/authors?faces-redirect=true";
     }
 }

@@ -10,26 +10,7 @@
       <f:viewParam name="authorId" value="#{booksMyBatis.authorId}"/>
       <f:viewParam name="bookId" value="#{booksMyBatis.bookId}"/>
    </f:metadata>
-   <style type="text/css">
-      .form-group {
-         margin-bottom: 15px;
-      }
-      .form-group label {
-         display: block;
-         margin-bottom: 5px;
-         font-weight: bold;
-      }
-      .form-group input[type="text"] {
-         width: 300px;
-         padding: 5px;
-      }
-      .button-group {
-         margin-top: 20px;
-      }
-      .genres-selection {
-         margin-top: 10px;
-      }
-   </style>
+   <h:outputStylesheet library="css" name="library-styles.css"/>
 </h:head>
 <h:body>
    <h1>#{empty booksMyBatis.bookToCreate.id ? 'Add New Book' : 'Edit Book'} for #{booksMyBatis.authorName} (MyBatis Implementation)</h1>

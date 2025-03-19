@@ -9,26 +9,7 @@
    <f:metadata>
       <f:viewParam name="bookId" value="#{bookDetailsMyBatis.bookId}"/>
    </f:metadata>
-   <style type="text/css">
-      .book-details {
-         margin-top: 20px;
-      }
-      .detail-row {
-         margin-bottom: 10px;
-      }
-      .table {
-         width: 100%;
-         border-collapse: collapse;
-         margin-top: 20px;
-      }
-      .table th, .table td {
-         border: 1px solid #ddd;
-         padding: 8px;
-      }
-      .button-group {
-         margin-top: 20px;
-      }
-   </style>
+   <h:outputStylesheet library="css" name="library-styles.css"/>
 </h:head>
 <h:body>
    <h1>Book Details (MyBatis Implementation)</h1>

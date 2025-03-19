@@ -8,44 +8,38 @@
     </resultMap>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        SELECT id, name, description
-        FROM Genre
-        WHERE id = #{id,jdbcType=BIGINT}
+        SELECT ID, NAME, DESCRIPTION
+        FROM GENRE
+        WHERE ID = #{id,jdbcType=BIGINT}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT id, name, description
-        FROM Genre
-        ORDER BY name
+        SELECT ID, NAME, DESCRIPTION
+        FROM GENRE
+        ORDER BY NAME
     </select>
 
     <select id="selectByBookId" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        SELECT g.id, g.name, g.description
-        FROM Genre g
-                 JOIN Book_Genre bg ON g.id = bg.genres_id
-        WHERE bg.books_id = #{bookId,jdbcType=BIGINT}
+        SELECT g.ID, g.NAME, g.DESCRIPTION
+        FROM GENRE g
+                 JOIN BOOK_GENRE bg ON g.ID = bg.GENRES_ID
+        WHERE bg.BOOKS_ID = #{bookId,jdbcType=BIGINT}
     </select>
 
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.lab1.mybatis.model.Genre" useGeneratedKeys="true">
-        INSERT INTO Genre (name, description)
-        VALUES (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
+    <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.example.lab1.mybatis.model.Genre" useGeneratedKeys="true">
+        INSERT INTO GENRE (ID, NAME, DESCRIPTION)
+        VALUES (NEXT VALUE FOR HIBERNATE_SEQUENCE, #{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
     </insert>
 
     <update id="updateByPrimaryKey" parameterType="com.example.lab1.mybatis.model.Genre">
-        UPDATE Genre
-        SET name = #{name,jdbcType=VARCHAR},
-            description = #{description,jdbcType=VARCHAR}
-        WHERE id = #{id,jdbcType=BIGINT}
+        UPDATE GENRE
+        SET NAME = #{name,jdbcType=VARCHAR},
+            DESCRIPTION = #{description,jdbcType=VARCHAR}
+        WHERE ID = #{id,jdbcType=BIGINT}
     </update>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-        DELETE FROM Genre
-        WHERE id = #{id,jdbcType=BIGINT}
+        DELETE FROM GENRE
+        WHERE ID = #{id,jdbcType=BIGINT}
     </delete>
-
-    <select id="countBooksByGenre" parameterType="java.lang.Long" resultType="java.lang.Integer">
-        SELECT COUNT(*)
-        FROM Book_Genre
-        WHERE genres_id = #{genreId,jdbcType=BIGINT}
-    </select>
 </mapper>
