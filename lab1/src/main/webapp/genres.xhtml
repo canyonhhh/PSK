@@ -6,6 +6,27 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
    <title>Genres Management</title>
+   <style type="text/css">
+      .table {
+         width: 100%;
+         border-collapse: collapse;
+         margin-top: 20px;
+      }
+      .table th, .table td {
+         border: 1px solid #ddd;
+         padding: 8px;
+         text-align: left;
+      }
+      .table th {
+         background-color: #f2f2f2;
+      }
+      .form-group {
+         margin-bottom: 15px;
+      }
+      .button-group {
+         margin-top: 15px;
+      }
+   </style>
 </h:head>
 <h:body>
    <h1>Genres Management</h1>
@@ -40,6 +61,9 @@
             <f:facet name="header">Actions</f:facet>
             <h:commandButton value="Edit" action="#{genresController.selectGenre(genre)}"
                              onclick="document.getElementById('genreForm').style.display='block'; return false;"/>
+            <h:button value="View Books" outcome="genre_books" style="margin-left: 5px;">
+               <f:param name="genreId" value="#{genre.id}" />
+            </h:button>
          </h:column>
       </h:dataTable>
    </h:form>
