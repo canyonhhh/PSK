@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+   <title>#{empty booksMyBatis.bookToCreate.id ? 'Add New Book' : 'Edit Book'} (MyBatis)</title>
+   <f:metadata>
+      <f:viewParam name="authorId" value="#{booksMyBatis.authorId}"/>
+      <f:viewParam name="bookId" value="#{booksMyBatis.bookId}"/>
+   </f:metadata>
+   <style type="text/css">
+      .form-group {
+         margin-bottom: 15px;
+      }
+      .form-group label {
+         display: block;
+         margin-bottom: 5px;
+         font-weight: bold;
+      }
+      .form-group input[type="text"] {
+         width: 300px;
+         padding: 5px;
+      }
+      .button-group {
+         margin-top: 20px;
+      }
+      .genres-selection {
+         margin-top: 10px;
+      }
+   </style>
+</h:head>
+<h:body>
+   <h1>#{empty booksMyBatis.bookToCreate.id ? 'Add New Book' : 'Edit Book'} for #{booksMyBatis.authorName} (MyBatis Implementation)</h1>
+
+   <h:form>
+      <div class="form-group">
+         <h:outputLabel for="isbn" value="ISBN:"/>
+         <h:inputText id="isbn" value="#{booksMyBatis.bookToCreate.isbn}" required="true"/>
+      </div>
+      <div class="form-group">
+         <h:outputLabel for="title" value="Title:"/>
+         <h:inputText id="title" value="#{booksMyBatis.bookToCreate.title}" required="true"/>
+      </div>
+      <div class="form-group">
+         <h:outputLabel for="copies" value="Number of Copies:"/>
+         <h:inputText id="copies" value="#{booksMyBatis.bookToCreate.copies}" required="true">
+            <f:convertNumber integerOnly="true"/>
+         </h:inputText>
+      </div>
+      <div class="form-group">
+         <h:outputLabel for="genres" value="Genres:"/>
+         <h:selectManyCheckbox id="genres" value="#{booksMyBatis.selectedGenreIds}" layout="pageDirection">
+            <f:selectItems value="#{booksMyBatis.allGenres}" var="genre"
+                           itemValue="#{genre.id}" itemLabel="#{genre.name}"/>
+         </h:selectManyCheckbox>
+      </div>
+      <div class="button-group">
+         <h:commandButton value="Save" action="#{booksMyBatis.saveBook()}"/>
+         <h:button value="Cancel" outcome="author_books" style="margin-left: 10px;">
+            <f:param name="authorId" value="#{booksMyBatis.authorId}" />
+         </h:button>
+      </div>
+   </h:form>
+</h:body>
+</html>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.lab1.mybatis.dao.GenreMapper">
+    <resultMap id="BaseResultMap" type="com.example.lab1.mybatis.model.Genre">
+        <id column="ID" jdbcType="BIGINT" property="id" />
+        <result column="NAME" jdbcType="VARCHAR" property="name" />
+        <result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+    </resultMap>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT id, name, description
+        FROM Genre
+        WHERE id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT id, name, description
+        FROM Genre
+        ORDER BY name
+    </select>
+
+    <select id="selectByBookId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT g.id, g.name, g.description
+        FROM Genre g
+                 JOIN Book_Genre bg ON g.id = bg.genres_id
+        WHERE bg.books_id = #{bookId,jdbcType=BIGINT}
+    </select>
+
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.example.lab1.mybatis.model.Genre" useGeneratedKeys="true">
+        INSERT INTO Genre (name, description)
+        VALUES (#{name,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.example.lab1.mybatis.model.Genre">
+        UPDATE Genre
+        SET name = #{name,jdbcType=VARCHAR},
+            description = #{description,jdbcType=VARCHAR}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM Genre
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <select id="countBooksByGenre" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM Book_Genre
+        WHERE genres_id = #{genreId,jdbcType=BIGINT}
+    </select>
+</mapper>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+   <title>Book Details (MyBatis)</title>
+   <f:metadata>
+      <f:viewParam name="bookId" value="#{bookDetailsMyBatis.bookId}"/>
+   </f:metadata>
+   <style type="text/css">
+      .book-details {
+         margin-top: 20px;
+      }
+      .detail-row {
+         margin-bottom: 10px;
+      }
+      .table {
+         width: 100%;
+         border-collapse: collapse;
+         margin-top: 20px;
+      }
+      .table th, .table td {
+         border: 1px solid #ddd;
+         padding: 8px;
+      }
+      .button-group {
+         margin-top: 20px;
+      }
+   </style>
+</h:head>
+<h:body>
+   <h1>Book Details (MyBatis Implementation)</h1>
+
+   <div class="book-details">
+      <div class="detail-row">
+         <h:outputLabel value="ID: "/>
+         <h:outputText value="#{bookDetailsMyBatis.book.id}"/>
+      </div>
+      <div class="detail-row">
+         <h:outputLabel value="ISBN: "/>
+         <h:outputText value="#{bookDetailsMyBatis.book.isbn}"/>
+      </div>
+      <div class="detail-row">
+         <h:outputLabel value="Title: "/>
+         <h:outputText value="#{bookDetailsMyBatis.book.title}"/>
+      </div>
+      <div class="detail-row">
+         <h:outputLabel value="Number of Copies: "/>
+         <h:outputText value="#{bookDetailsMyBatis.book.copies}"/>
+      </div>
+      <div class="detail-row">
+         <h:outputLabel value="Author: "/>
+         <h:outputText value="#{bookDetailsMyBatis.authorName}"/>
+      </div>
+
+      <h3>Genres</h3>
+      <h:dataTable value="#{bookDetailsMyBatis.bookGenres}" var="genre" rendered="#{bookDetailsMyBatis.hasGenres()}" styleClass="table">
+         <h:column>
+            <f:facet name="header">Name</f:facet>
+            #{genre.name}
+         </h:column>
+         <h:column>
+            <f:facet name="header">Description</f:facet>
+            #{genre.description}
+         </h:column>
+      </h:dataTable>
+      <h:outputText value="No genres assigned to this book." rendered="#{!bookDetailsMyBatis.hasGenres()}"/>
+
+      <div class="button-group">
+         <h:form>
+            <h:button value="Back to Author's Books" outcome="author_books">
+               <f:param name="authorId" value="#{bookDetailsMyBatis.book.authorId}" />
+            </h:button>
+         </h:form>
+      </div>
+   </div>
+</h:body>
+</html>
