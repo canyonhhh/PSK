@@ -4,9 +4,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html">
 <h:head>
-    <title>Test JSF</title>
+    <title>Library Management System</title>
 </h:head>
 <h:body>
-    <h1>Test Page</h1>
+    <h1>Library Management System</h1>
+
+    <ul class="menu">
+        <li><h:link outcome="authors.xhtml" value="Manage Authors"/></li>
+        <li><h:link outcome="genres.xhtml" value="Manage Genres"/></li>
+        <li><h:link outcome="members.xhtml" value="Manage Members"/></li>
+        <li><h:link outcome="borrowings.xhtml" value="Manage Borrowings"/></li>
+    </ul>
 </h:body>
 </html>
