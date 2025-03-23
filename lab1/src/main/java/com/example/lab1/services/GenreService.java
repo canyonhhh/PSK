@@ -23,8 +23,8 @@ public class GenreService {
     }
 
     @Transactional
-    public Genre updateGenre(Genre genre) {
-        return genresDAO.update(genre);
+    public void updateGenre(Genre genre) {
+        genresDAO.update(genre);
     }
 
     @Transactional

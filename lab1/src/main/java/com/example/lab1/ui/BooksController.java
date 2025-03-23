@@ -33,9 +33,6 @@ public class BooksController implements Serializable {
     @Inject
     private GenreService genreService;
 
-    @Inject
-    private EntityManager em;
-
     // Getters and setters
     @Getter
     @Setter
@@ -65,9 +62,8 @@ public class BooksController implements Serializable {
     }
 
     private void loadGenres() {
-        allGenres = em.createQuery("SELECT g FROM Genre g ORDER BY g.name", Genre.class).getResultList();
+        allGenres = genreService.getAllGenresWithBooks();
     }
-
     public void loadAuthorBooks() {
         if (authorId != null) {
             Author author = authorService.getAuthorById(authorId);

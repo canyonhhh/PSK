@@ -34,10 +34,6 @@
             #{genre.description}
          </h:column>
          <h:column>
-            <f:facet name="header">Books</f:facet>
-            #{genre.books.size()}
-         </h:column>
-         <h:column>
             <f:facet name="header">Actions</f:facet>
             <h:commandButton value="Edit" action="#{genresController.selectGenre(genre)}"
                              onclick="document.getElementById('genreForm').style.display='block'; return false;"/>
