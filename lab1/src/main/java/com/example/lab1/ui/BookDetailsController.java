@@ -38,15 +38,4 @@ public class BookDetailsController implements Serializable {
         }
         return "No author assigned";
     }
-
-    public List<Genre> getBookGenres() {
-        if (book != null && book.getGenres() != null) {
-            return book.getGenres();
-        }
-        return new ArrayList<>();
-    }
-
-    public boolean hasGenres() {
-        return book != null && book.getGenres() != null && !book.getGenres().isEmpty();
-    }
 }
