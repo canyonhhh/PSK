@@ -2,6 +2,7 @@ package com.example.lab1.ui;
 
 import com.example.lab1.entities.Book;
 import com.example.lab1.entities.Genre;
+import com.example.lab1.services.BookService;
 import com.example.lab1.services.GenreService;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,9 +20,8 @@ import java.util.List;
 public class GenreBooksController implements Serializable {
     @Inject
     private GenreService genreService;
-
     @Inject
-    private EntityManager em;
+    private BookService bookService;
 
     @Getter
     @Setter
@@ -38,15 +38,7 @@ public class GenreBooksController implements Serializable {
             Genre genre = genreService.getGenreById(genreId);
             if (genre != null) {
                 genreName = genre.getName();
-
-                // We need to fetch the books with the author to avoid LazyInitializationException
-                books = em.createQuery(
-                                "SELECT DISTINCT b FROM Book b " +
-                                        "JOIN FETCH b.author " +
-                                        "JOIN b.genres g " +
-                                        "WHERE g.id = :genreId", Book.class)
-                        .setParameter("genreId", genreId)
-                        .getResultList();
+                books = bookService.getBooksByGenreId(genreId);
             }
         }
     }

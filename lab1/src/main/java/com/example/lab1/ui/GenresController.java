@@ -21,9 +21,6 @@ public class GenresController implements Serializable {
     @Inject
     private GenreService genreService;
 
-    @Inject
-    private EntityManager em;
-
     @Getter
     @Setter
     private Genre selectedGenre = new Genre();
@@ -37,8 +34,7 @@ public class GenresController implements Serializable {
     }
 
     private void loadGenres() {
-        TypedQuery<Genre> query = em.createQuery("SELECT g FROM Genre g LEFT JOIN FETCH g.books ORDER BY g.name", Genre.class);
-        genres = query.getResultList();
+        genres = genreService.getAllGenresWithBooks();
     }
 
     public void prepareNewGenre() {

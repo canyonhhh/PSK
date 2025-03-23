@@ -6,6 +6,7 @@ import com.example.lab1.persistence.BooksDAO;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @RequestScoped
 public class BookService {
@@ -22,7 +23,11 @@ public class BookService {
     }
 
     @Transactional
-    public Book updateBook(Book book) {
-        return booksDAO.update(book);
+    public void updateBook(Book book) {
+        booksDAO.update(book);
+    }
+
+    public List<Book> getBooksByGenreId(Long genreId) {
+        return booksDAO.findBooksByGenreId(genreId);
     }
 }
