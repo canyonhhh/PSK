@@ -23,6 +23,10 @@ public class BooksDAO {
         return em.merge(book);
     }
 
+    public List<Book> findAll() {
+        return em.createQuery("SELECT b FROM Book b", Book.class).getResultList();
+    }
+
     public List<Book> findBooksByGenreId(Long genreId) {
         return em.createQuery(
                         "SELECT DISTINCT b FROM Book b " +

@@ -33,6 +33,10 @@ public class GenresController implements Serializable {
         loadGenres();
     }
 
+    public void refresh() {
+        loadGenres();
+    }
+
     private void loadGenres() {
         genres = genreService.getAllGenresWithBooks();
     }

@@ -18,6 +18,11 @@ public class BookService {
         booksDAO.persist(book);
     }
 
+    @Transactional
+    public List<Book> getAllBooks() {
+        return booksDAO.findAll();
+    }
+
     public Book getBookById(Long id) {
         return booksDAO.findOne(id);
     }

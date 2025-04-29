@@ -23,8 +23,12 @@ public class Book {
     @Basic
     private Integer copies;
 
+    @Version
+    private Long version;
+
     @ManyToOne
     private Author author;
+
     @ManyToMany
     private List<Genre> genres;
 }

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+   <title>Optimistic Locking Demo</title>
+   <f:metadata>
+      <f:viewAction action="#{optimisticLockController.loadBooks}" />
+   </f:metadata>
+   <h:outputStylesheet library="css" name="library-styles.css"/>
+   <style type="text/css">
+      .step {
+         margin-bottom: 20px;
+         padding: 15px;
+         border: 1px solid #ddd;
+         border-radius: 5px;
+         background-color: #f9f9f9;
+      }
+      .step-header {
+         font-weight: bold;
+         margin-bottom: 10px;
+         padding-bottom: 5px;
+         border-bottom: 1px solid #eee;
+      }
+      .disabled { opacity: 0.5; pointer-events: none; }
+      .enabled { opacity: 1.0; }
+      .success { background-color: #dff0d8; border-color: #d6e9c6; }
+      .warning { background-color: #fcf8e3; border-color: #faebcc; }
+      .error { background-color: #f2dede; border-color: #ebccd1; }
+   </style>
+</h:head>
+<h:body>
+   <h1>Optimistic Locking Demo</h1>
+
+   <p>See how JPA optimistic locking works and how to handle lock exceptions.</p>
+
+   <h:messages id="messages" globalOnly="true" styleClass="messages" errorClass="error" infoClass="info" />
+
+   <h:form id="mainForm">
+      <div class="step #{optimisticLockController.step1Complete ? 'success' : ''}">
+         <div class="step-header">Step 1: Pick a book</div>
+         <div>
+            <h:outputLabel for="bookSelect" value="Select: " />
+            <h:selectOneMenu id="bookSelect" value="#{optimisticLockController.selectedBookId}"
+                             disabled="#{optimisticLockController.step1Complete}">
+               <f:selectItem itemLabel="-- Select Book --" itemValue="" />
+               <f:selectItems value="#{optimisticLockController.availableBooks}" var="book"
+                              itemLabel="#{book.title}" itemValue="#{book.id}" />
+            </h:selectOneMenu>
+
+            <h:commandButton value="Get Reference" action="#{optimisticLockController.step1GetReference}"
+                             disabled="#{optimisticLockController.step1Complete}">
+               <f:ajax execute="bookSelect" render="@form messages" />
+            </h:commandButton>
+         </div>
+      </div>
+
+      <div class="step #{optimisticLockController.step1Complete ? 'enabled' : 'disabled'}
+                        #{optimisticLockController.step2Complete ? 'success' : ''}">
+         <div class="step-header">Step 2: Simulate another user's update</div>
+         <div>
+            <p>Current book:
+               <h:panelGroup rendered="#{optimisticLockController.selectedBook != null}">
+                  <strong>#{optimisticLockController.selectedBook.title}</strong>,
+                  Copies: #{optimisticLockController.selectedBook.copies},
+                  Version: #{optimisticLockController.selectedBook.version}
+               </h:panelGroup>
+            </p>
+
+            <h:commandButton value="Update as Another User"
+                             action="#{optimisticLockController.step2SimulateOtherUser}"
+                             disabled="#{not optimisticLockController.step1Complete or optimisticLockController.step2Complete}">
+               <f:ajax execute="@this" render="@form messages" />
+            </h:commandButton>
+         </div>
+      </div>
+
+      <div class="step #{optimisticLockController.step2Complete ? 'enabled' : 'disabled'}
+                        #{optimisticLockController.step3Failed ? 'error' : ''}">
+         <div class="step-header">Step 3: Try updating with stale data</div>
+         <div>
+            <h:outputLabel for="newCopies" value="New copies: " />
+            <h:inputText id="newCopies" value="#{optimisticLockController.newCopiesValue}" />
+
+            <h:commandButton value="Update with Stale Reference"
+                             action="#{optimisticLockController.step3UpdateWithStaleReference}"
+                             disabled="#{not optimisticLockController.step2Complete or optimisticLockController.step3Failed}">
+               <f:ajax execute="newCopies" render="@form messages" />
+            </h:commandButton>
+         </div>
+      </div>
+
+      <div class="step #{optimisticLockController.step3Failed ? 'enabled' : 'disabled'}">
+         <div class="step-header">Step 4: Fix by getting fresh data</div>
+         <div>
+            <p>Handle OptimisticLockException by refreshing entity data</p>
+
+            <h:commandButton value="Update with Fresh Reference"
+                             action="#{optimisticLockController.step4UpdateWithFreshReference}"
+                             disabled="#{not optimisticLockController.step3Failed}">
+               <f:ajax execute="@this" render="@form messages" />
+            </h:commandButton>
+         </div>
+      </div>
+
+      <div style="margin-top: 20px;">
+         <h:commandButton value="Reset" action="#{optimisticLockController.loadBooks}">
+            <f:ajax execute="@this" render="@form messages" />
+         </h:commandButton>
+         <h:button value="Back" outcome="index" style="margin-left: 10px;" />
+      </div>
+   </h:form>
+</h:body>
+</html>
